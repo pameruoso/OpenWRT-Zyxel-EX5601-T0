@@ -83,21 +83,6 @@ function set_sfp_ethwan_sel(){
     esac
 }
 
-# force the external PHY into power down mode
-power_down_ext_phy() {
-#    TMP_VAL=`mdio mdio-bus mmd 6:0 0x0000`
-#    WRITE_VAL=$(( $TMP_VAL | (1 << 0xb) ))
-#    WRITE_VAL_HEX=$(printf "%x" $WRITE_VAL)
-     mdio mdio-bus mmd 6:0 raw 0x0000 0x3840 >> /dev/null
-}
-
-# force the external PHY into normal operational mode
-power_up_ext_phy() {
-#    TMP_VAL=`mdio mdio-bus mmd 6:0 0x0000`
-#    WRITE_VAL=$(( $TMP_VAL & (~(1 << 0xb)) ))
-#    WRITE_VAL_HEX=$(printf "%x" $WRITE_VAL)
-     mdio mdio-bus mmd 6:0 raw 0x0000 0x3040 >> /dev/null
-}
 
 if [ -f $LOCK_FILE ]; then
   echo "\n================ This script is already running! lock:  /tmp/sfp_wan.lock \n"
@@ -113,6 +98,7 @@ fi
 
 # Export the pins
 init_sfp_gpios
+
 
 # wait for system ready
 sleep 10
@@ -130,7 +116,7 @@ do
         echo "sfp module was plug in!"
         LATEST_SFP_PRESENT=1
         set_sfp_ethwan_sel sfp
-        power_down_ext_phy
+        #power_down_ext_phy
 
         #wait
         sleep 3
@@ -154,7 +140,7 @@ do
             echo "sfp module was removed!"
             LATEST_SFP_PRESENT=0
             set_sfp_ethwan_sel ethwan
-            power_up_ext_phy
+            #power_up_ext_phy
 
             #wait
             sleep 3
