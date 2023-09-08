@@ -22,6 +22,13 @@ Not implemented
 Useful scripts:
 gen_zyfwinfo.sh: This script can be used to generate a valid zyfwinfo file for flashing openwrt firmwares with Zloader (zyxel proprietary boot loader)
 
+Zyfwinfo file usage:
+1. Download the sysupgrade.bin from the Openwrt firmware selector or build your own via source code.
+2. In the same folder as the sysupgrade.bin file create a new directory with the following name: "sysupgrade-zyxel_ex5601-t0-stock"
+3. Put the generated zyfwinfo file into the "sysupgrade-zyxel_ex5601-t0-stock" directory
+4. Run the following command in the folder where the sysupgrade.bin file has been downloaded
+"tar -rf sysupgrade.bin sysupgrade-zyxel_ex5601-t0-stock/"
+
 sfp_wan.sh : this script exports pin 57 and 10 and swaps automatically between an sfp and the ethernet port on the router. Place the script into /bin and give execute permissions.
 
 zy_sfp_init.sh: init script to be placed into /etc/init.d. this script will automatically start sfp_wan.sh at boot.
